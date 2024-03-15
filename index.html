@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Roleplay Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://media.discordapp.net/attachments/1215998869696151712/1218115056160735232/Screenshot_20231102_183928_Chrome.jpg?ex=66067d0c&is=65f4080c&hm=7388a2d41e8e221a72883c82d38384da2d370fc601c153712da4aadfa7ce25a3" alt="Game Logo" class="logo">
+        </div>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to our Mobile Roleplay Game!</h1>
+                <p>Experience the next level of immersive storytelling.</p>
+                <button class="cta-btn" onclick="redirectToBetaTest()">Sign Up for Beta Testing</button>
+            </div>
+        </section>
+
+        <section class="coming-soon">
+            <div class="coming-soon-content">
+                <h2>Coming Soon!</h2>
+                <p>Stay tuned for updates and exciting announcements!</p>
+            </div>
+        </section>
+
+        <section id="beta-test" class="beta-test">
+            <div class="beta-test-content">
+                <h2>Beta Testing Application</h2>
+                <form id="beta-test-form">
+                    <input type="text" placeholder="Name" required>
+                    <input type="text" placeholder="Country" required>
+                    <input type="email" placeholder="Email" required>
+                    <button type="submit" class="cta-btn">Apply</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Mobile Roleplay Game. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function redirectToBetaTest() {
+            window.location.href = "#beta-test";
+        }
+
+        document.getElementById("beta-test-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.querySelector("#beta-test-form input[type='text']").value;
+            const country = document.querySelector("#beta-test-form input[type='text']:nth-of-type(2)").value;
+            const email = document.querySelector("#beta-test-form input[type='email']").value;
+            
+            // Send application details to Discord webhook
+            const webhookURL = "https://discord.com/api/webhooks/1217772423793872986/B0msGnBXIgDITwZNFZSKVs-l7y5tvgi7e21F6UFnhx-2YlJlVokJVTt974zENKE1aXEs";
+            const data = {
+                "content": `New Beta Testing Application:\nName: ${name}\nCountry: ${country}\nEmail: ${email}`
+            };
+            
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Application submitted successfully!");
+                    document.getElementById("beta-test-form").reset();
+                } else {
+                    alert("Failed to submit application. Please try again later.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Failed to submit application. Please try again later.");
+            });
+        });
+    </script>
+</body>
+</html>
